@@ -1,0 +1,72 @@
+{
+  "proposal_id": "A",
+  "_comment": "Expected extraction output for the sample set. Structured facts only; evidence quotes and licence numbers are intentionally left out of the repo.",
+  "fields": {
+    "licence.held_by": {
+      "value": "bidder",
+      "evidence": []
+    },
+    "licence.number": {
+      "value": "<redacted in repo>",
+      "evidence": []
+    },
+    "compliance.wsib_clearance": {
+      "value": "yes",
+      "evidence": []
+    },
+    "compliance.liability_insurance_cad": {
+      "value": 5000000,
+      "evidence": []
+    },
+    "experience.qualifying_installs_count": {
+      "value": 14,
+      "evidence": []
+    },
+    "experience.period_start_year": {
+      "value": 2021,
+      "evidence": []
+    },
+    "experience.period_years_back": {
+      "value": null,
+      "evidence": []
+    },
+    "price.total_cad": {
+      "value": 238000,
+      "evidence": []
+    },
+    "price.includes_permits_and_connection": {
+      "value": "yes",
+      "evidence": []
+    },
+    "timeline.completion_weeks": {
+      "value": 12,
+      "evidence": []
+    },
+    "warranty.panel_years": {
+      "value": 25,
+      "evidence": []
+    },
+    "warranty.workmanship_years": {
+      "value": 10,
+      "evidence": []
+    },
+    "team.named_project_lead": {
+      "value": "yes",
+      "evidence": []
+    },
+    "team.crew_size": {
+      "value": 6,
+      "evidence": []
+    },
+    "team.safety_plan": {
+      "value": "yes",
+      "evidence": []
+    },
+    "team.monitoring_plan": {
+      "value": "yes",
+      "evidence": []
+    }
+  },
+  "suspicious_instructions": [],
+  "notes": []
+}

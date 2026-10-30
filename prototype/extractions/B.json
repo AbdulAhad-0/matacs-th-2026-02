@@ -1,0 +1,74 @@
+{
+  "proposal_id": "B",
+  "_comment": "Expected extraction output for the sample set. Structured facts only; evidence quotes and licence numbers are intentionally left out of the repo.",
+  "fields": {
+    "licence.held_by": {
+      "value": "subcontractor",
+      "evidence": []
+    },
+    "licence.number": {
+      "value": null,
+      "evidence": []
+    },
+    "compliance.wsib_clearance": {
+      "value": "yes",
+      "evidence": []
+    },
+    "compliance.liability_insurance_cad": {
+      "value": 5000000,
+      "evidence": []
+    },
+    "experience.qualifying_installs_count": {
+      "value": 6,
+      "evidence": []
+    },
+    "experience.period_start_year": {
+      "value": null,
+      "evidence": []
+    },
+    "experience.period_years_back": {
+      "value": 4,
+      "evidence": []
+    },
+    "price.total_cad": {
+      "value": 189500,
+      "evidence": []
+    },
+    "price.includes_permits_and_connection": {
+      "value": "yes",
+      "evidence": []
+    },
+    "timeline.completion_weeks": {
+      "value": 10,
+      "evidence": []
+    },
+    "warranty.panel_years": {
+      "value": 25,
+      "evidence": []
+    },
+    "warranty.workmanship_years": {
+      "value": 5,
+      "evidence": []
+    },
+    "team.named_project_lead": {
+      "value": "no",
+      "evidence": []
+    },
+    "team.crew_size": {
+      "value": null,
+      "evidence": []
+    },
+    "team.safety_plan": {
+      "value": "not_stated",
+      "evidence": []
+    },
+    "team.monitoring_plan": {
+      "value": "not_stated",
+      "evidence": []
+    }
+  },
+  "suspicious_instructions": [],
+  "notes": [
+    "Electrical work is to be done by a subcontractor who is not named; licence not held by the bidder."
+  ]
+}
