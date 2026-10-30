@@ -1,0 +1,5 @@
+.env
+prototype/samples/
+prototype/extractions_live/
+__pycache__/
+*.pyc

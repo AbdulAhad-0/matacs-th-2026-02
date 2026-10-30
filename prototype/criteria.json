@@ -1,0 +1,119 @@
+{
+  "category_id": "commercial-solar",
+  "category_name": "Commercial Solar Installation",
+  "version": 1,
+  "project": {
+    "context": "150 kW rooftop solar system on a warehouse in Windsor, Ontario",
+    "budget_ceiling_cad": 260000,
+    "max_weeks": 16,
+    "experience_window_years": 5
+  },
+  "mandatory": [
+    {
+      "id": "licence",
+      "label": "Ontario electrical contractor licence held by the bidder and stated",
+      "checks": [
+        {"field": "licence.held_by", "pass": ["bidder"], "fail": ["subcontractor", "none"]},
+        {"field": "licence.number", "present": true}
+      ],
+      "extract": [
+        {"key": "licence.held_by", "type": "enum", "values": ["bidder", "subcontractor", "none", "unclear", "not_stated"],
+         "description": "Who holds the Ontario electrical contractor licence covering the electrical work. Use 'bidder' only if the proposal says the bidder itself holds it. Use 'subcontractor' if the electrical work will be done under a subcontractor's licence, named or not. Use 'none' if the proposal says no licence is held. Use 'unclear' if the wording is ambiguous and 'not_stated' if no licence is mentioned."},
+        {"key": "licence.number", "type": "string",
+         "description": "The licence or registration number exactly as written, or null if none is given."}
+      ]
+    },
+    {
+      "id": "wsib_insurance",
+      "label": "WSIB clearance and $5M liability insurance confirmed in the proposal",
+      "checks": [
+        {"field": "compliance.wsib_clearance", "pass": ["yes"], "fail": ["no"]},
+        {"field": "compliance.liability_insurance_cad", "min": 5000000}
+      ],
+      "extract": [
+        {"key": "compliance.wsib_clearance", "type": "enum", "values": ["yes", "no", "not_stated"],
+         "description": "Does the proposal confirm that the bidder holds current WSIB clearance?"},
+        {"key": "compliance.liability_insurance_cad", "type": "number",
+         "description": "Amount of liability insurance the bidder says it carries, in whole CAD dollars (for example $5M becomes 5000000). null if not stated."}
+      ]
+    }
+  ],
+  "weighted": [
+    {
+      "id": "experience",
+      "label": "Relevant experience",
+      "weight": 30,
+      "scoring": {"type": "linear", "field": "experience.qualifying_installs_count", "zero_at": 0, "full_at": 10},
+      "window": {"start_year_field": "experience.period_start_year", "years_back_field": "experience.period_years_back"},
+      "extract": [
+        {"key": "experience.qualifying_installs_count", "type": "integer",
+         "description": "Number of commercial installations the proposal says are 100 kW or larger. Copy the stated number; never add up, estimate or adjust. Count only installs stated to be 100 kW or more. null if no number is given."},
+        {"key": "experience.period_start_year", "type": "integer",
+         "description": "If the proposal counts installs 'since YEAR' (or gives a start year), that year. Otherwise null."},
+        {"key": "experience.period_years_back", "type": "integer",
+         "description": "If the proposal counts installs 'in the last N years' or 'past N years', N. Otherwise null."}
+      ]
+    },
+    {
+      "id": "price",
+      "label": "Price",
+      "weight": 25,
+      "scoring": {"type": "linear", "field": "price.total_cad", "zero_at": "project.budget_ceiling_cad", "full_at": 208000,
+                  "ineligible_if_above": "project.budget_ceiling_cad"},
+      "hold_if_missing": true,
+      "notes_if": [{"field": "price.includes_permits_and_connection", "equals": "yes",
+                    "message": "Proposal does not say that permits and utility connection are in the price, so price may not be like-for-like"}],
+      "extract": [
+        {"key": "price.total_cad", "type": "number",
+         "description": "Total price in CAD as one number. If the currency is not CAD or is not stated, return null and explain in notes."},
+        {"key": "price.includes_permits_and_connection", "type": "enum", "values": ["yes", "no", "not_stated"],
+         "description": "Does the proposal say the price includes permits and utility connection (or describe the price as all-in)?"}
+      ]
+    },
+    {
+      "id": "timeline",
+      "label": "Timeline",
+      "weight": 15,
+      "scoring": {"type": "linear", "field": "timeline.completion_weeks", "zero_at": "project.max_weeks", "full_at": 10,
+                  "ineligible_if_above": "project.max_weeks"},
+      "hold_if_missing": true,
+      "extract": [
+        {"key": "timeline.completion_weeks", "type": "number",
+         "description": "Committed completion time in weeks from award. If given in months, multiply by 4.33 and say so in notes. null if no definite duration is committed (for example the schedule is still to be determined)."}
+      ]
+    },
+    {
+      "id": "warranty",
+      "label": "Warranty",
+      "weight": 15,
+      "scoring": {"type": "linear_avg", "components": [
+        {"field": "warranty.panel_years", "zero_at": 0, "full_at": 25},
+        {"field": "warranty.workmanship_years", "zero_at": 0, "full_at": 15}
+      ]},
+      "extract": [
+        {"key": "warranty.panel_years", "type": "number", "description": "Length of the panel warranty in years, or null."},
+        {"key": "warranty.workmanship_years", "type": "number", "description": "Length of the workmanship warranty in years, or null."}
+      ]
+    },
+    {
+      "id": "team",
+      "label": "Team and approach",
+      "weight": 15,
+      "scoring": {"type": "checklist", "items": [
+        {"label": "Named project lead", "field": "team.named_project_lead", "equals": "yes"},
+        {"label": "Crew size stated", "field": "team.crew_size", "present": true},
+        {"label": "Safety plan", "field": "team.safety_plan", "equals": "yes"},
+        {"label": "Monitoring plan", "field": "team.monitoring_plan", "equals": "yes"}
+      ]},
+      "extract": [
+        {"key": "team.named_project_lead", "type": "enum", "values": ["yes", "no", "not_stated"],
+         "description": "Does the proposal say a project lead or manager is named? Use 'no' if it says someone will be assigned later."},
+        {"key": "team.crew_size", "type": "integer", "description": "Number of crew members stated, or null."},
+        {"key": "team.safety_plan", "type": "enum", "values": ["yes", "no", "not_stated"],
+         "description": "Does the proposal include a site safety plan?"},
+        {"key": "team.monitoring_plan", "type": "enum", "values": ["yes", "no", "not_stated"],
+         "description": "Does the proposal include a performance-monitoring plan or service?"}
+      ]
+    }
+  ]
+}
